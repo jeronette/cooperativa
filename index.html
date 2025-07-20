@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Bancario IT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .login-form {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            transform: translateY(-20px);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #667eea;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        }
+
+        .header {
+            background: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            border-radius: 15px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .menu-item {
+            padding: 15px 20px;
+            margin: 5px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+        }
+
+        .menu-item:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .menu-item.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .content-area {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            min-height: 500px;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .table th, .table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        .table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .btn-small {
+            width: auto;
+            padding: 8px 16px;
+            font-size: 14px;
+            margin: 0 5px;
+        }
+
+        .status-active {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .status-inactive {
+            color: #dc3545;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login" class="login-container">
+        <div class="login-form">
+            <div class="logo">🏦 Sistema Bancario IT</div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Usuario</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn">Iniciar Sesión</button>
+                <button type="button" class="btn btn-secondary" onclick="showRegister()">Registrarse</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Screen -->
+    <div id="register" class="login-container hidden">
+        <div class="login-form">
+            <div class="logo">📝 Registro de Usuario</div>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="regUsername">Usuario</label>
+                    <input type="text" id="regUsername" name="regUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email</label>
+                    <input type="email" id="regEmail" name="regEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Contraseña</label>
+                    <input type="password" id="regPassword" name="regPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="regRole">Rol</label>
+                    <select id="regRole" name="regRole" required>
+                        <option value="">Seleccionar rol</option>
+                        <option value="admin">Administrador</option>
+                        <option value="cajero">Cajero</option>
+                        <option value="asesor">Asesor</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Registrar</button>
+                <button type="button" class="btn btn-secondary" onclick="showLogin()">Volver al Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main System -->
+    <div id="mainSystem" class="container hidden">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <div class="logo">🏦 Sistema Bancario IT</div>
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <span id="userName">Usuario</span>
+                    <button class="btn btn-small" onclick="logout()">Cerrar Sesión</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar and Content -->
+        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 30px;">
+            <div class="sidebar">
+                <div class="menu-item active" onclick="showSection('dashboard')">
+                    📊 Escritorio
+                </div>
+                <div class="menu-item" onclick="showSection('filiacionesPersonales')">
+                    👤 Filiaciones Personales
+                </div>
+                <div class="menu-item" onclick="showSection('filiacionesInstitucionales')">
+                    🏢 Filiaciones Institucionales
+                </div>
+                <div class="menu-item" onclick="showSection('reporteFiliaciones')">
+                    📄 Reporte Filiaciones
+                </div>
+                <div class="menu-item" onclick="showSection('caja')">
+                    💰 Caja
+                </div>
+                <div class="menu-item" onclick="showSection('divisas')">
+                    💱 Divisas
+                </div>
+                <div class="menu-item" onclick="showSection('reportes')">
+                    📈 Reportes
+                </div>
+                <div class="menu-item" onclick="showSection('ahorros')">
+                    🏦 Ahorros
+                </div>
+                <div class="menu-item" onclick="showSection('reportesAhorros')">
+                    📊 Reportes Ahorros
+                </div>
+                <div class="menu-item" onclick="showSection('certificados')">
+                    📜 Certificados
+                </div>
+                <div class="menu-item" onclick="showSection('reportesCertificados')">
+                    📋 Reportes Certificados
+                </div>
+            </div>
+
+            <div class="content-area">
+                <!-- Dashboard -->
+                <div id="dashboard" class="section active">
+                    <h2 class="section-title">📊 Escritorio Principal</h2>
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <div class="stat-number">1,247</div>
+                            <div class="stat-label">Clientes Activos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">$2.5M</div>
+                            <div class="stat-label">Total Depósitos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">89</div>
+                            <div class="stat-label">Operaciones Hoy</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">156</div>
+                            <div class="stat-label">Certificados Activos</div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid">
+                        <div class="card">
+                            <h3>Actividad Reciente</h3>
+                            <ul>
+                                <li>Nueva filiación personal - Juan Pérez</li>
+                                <li>Depósito de ahorro - $5,000</li>
+                                <li>Emisión de certificado - María García</li>
+                                <li>Operación de cambio - €2,000</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <h3>Alertas</h3>
+                            <ul>
+                                <li>⚠️ Verificar documentos pendientes</li>
+                                <li>📊 Generar reporte mensual</li>
+                                <li>💰 Arqueo de caja programado</li>
+                                <li>📜 Certificados por vencer</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filiaciones Personales -->
+                <div id="filiacionesPersonales" class="section">
+                    <h2 class="section-title">👤 Filiaciones Personales</h2>
+                    <form id="filiacionPersonalForm">
+                        <div class="grid">
+                            <div class="form-group">
+                                <label>Nombres</label>
+                                <input type="text" name="nombres" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Apellidos</label>
+                                <input type="text" name="apellidos" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Número de Identidad</label>
+                                <input type="text" name="identidad" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Fecha de Nacimiento</label>
+                                <input type="date" name="fechaNacimiento" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Teléfono</label>
+                                <input type="tel" name="telefono" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Dirección</label>
+                            <textarea name="direccion" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Registrar Cliente</button>
+                    </form>
+
+                    <table class="table" id="clientesPersonalesTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Identidad</th>
+                                <th>Teléfono</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>001</td>
+                                <td>Juan Carlos</td>
+                                <td>Pérez García</td>
+                                <td>0801-1990-12345</td>
+                                <td>9876-5432</td>
+                                <td class="status-active">Activo</td>
+                                <td>
+                                    <button class="btn btn-small">Editar</button>
+                                    <button class="btn btn-small btn-secondary">Ver</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Filiaciones Institucionales -->
+                <div id="filiacionesInstitucionales" class="section">
+                    <h2 class="section-title">🏢 Filiaciones Institucionales</h2>
+                    <form id="filiacionInstitucionalForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Razón Social</label>
+                                <input type="text" name="razonSocial" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Nombre Comercial</label>
+                                <input type="text" name="nombreComercial" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>RTN</label>
+                                <input type="text" name="rtn" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Tipo de Empresa</label>
+                                <select name="tipoEmpresa" required>
+                                    <option value="">Seleccionar</option>
+                                    <option value="SA">S.A.</option>
+                                    <option value="SRL">S.R.L.</option>
+                                    <option value="CORP">Corporación</option>
+                                    <option value="COOP">Cooperativa</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Teléfono</label>
+                                <input type="tel" name="telefonoEmpresa" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" name="emailEmpresa" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Dirección</label>
+                            <textarea name="direccionEmpresa" rows="3" required></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Representante Legal</label>
+                                <input type="text" name="representanteLegal" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Identidad del Representante</label>
+                                <input type="text" name="identidadRepresentante" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn">Registrar Empresa</button>
+                    </form>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Razón Social</th>
+                                <th>RTN</th>
+                                <th>Tipo</th>
+                                <th>Representante</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>E001</td>
+                                <td>Comercial La Esperanza S.A.</td>
+                                <td>08019901234567</td>
+                                <td>S.A.</td>
+                                <td>Ana María López</td>
+                                <td class="status-active">Activo</td>
+                                <td>
+                                    <button class="btn btn-small">Editar</button>
+                                    <button class="btn btn-small btn-secondary">Ver</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Reporte Filiaciones -->
+                <div id="reporteFiliaciones" class="section">
+                    <h2 class="section-title">📄 Reporte de Filiaciones</h2>
+                    <div class="grid">
+                        <div class="card">
+                            <h3>Filtros de Búsqueda</h3>
+                            <div class="form-group">
+                                <label>Tipo de Cliente</label>
+                                <select>
+                                    <option value="">Todos</option>
+                                    <option value="personal">Personal</option>
+                                    <option value="institucional">Institucional</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Fecha Desde</label>
+                                <input type="date">
+                            </div>
+                            <div class="form-group">
+                                <label>Fecha Hasta</label>
+                                <input type="date">
+                            </div>
+                            <button class="btn">Generar Reporte</button>
+                        </div>
+                        <div class="card">
+                            <h3>Estadísticas</h3>
+                            <p><strong>Total Clientes:</strong> 1,247</p>
+                            <p><strong>Personales:</strong> 1,089 (87%)</p>
+                            <p><strong>Institucionales:</strong> 158 (13%)</p>
+                            <p><strong>Activos:</strong> 1,156 (93%)</p>
+                            <p><strong>Inactivos:</strong> 91 (7%)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Caja -->
+                <div id="caja" class="section">
+                    <h2 class="section-title">💰 Operaciones de Caja</h2>
+                    <div class="grid">
+                        <div class="card">
+                            <h3>Nueva Transacción</h3>
+                            <form id="transaccionForm">
+                                <div class="form-group">
+                                    <label>Tipo de Operación</label>
+                                    <select name="tipoOperacion" required>
+                                        <option value="">Seleccionar</option>
+                                        <option value="deposito">Depósito</option>
+                                        <option value="retiro">Retiro</option>
+                                        <option value="transferencia">Transferencia</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Cliente</label>
+                                    <input type="text" name="clienteTransaccion" placeholder="Buscar cliente..." required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Monto</label>
+                                    <input type="number" name="monto" step="0.01" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Concepto</label>
+                                    <textarea name="concepto" rows="2"></textarea>
+                                </div>
+                                <button type="submit" class="btn">Procesar Transacción</button>
+                            </form>
+                        </div>
+                        <div class="card">
+                            <h3>Estado de Caja</h3>
+                            <p><strong>Saldo Inicial:</strong> $50,000.00</p>
+                            <p><strong>Ingresos:</strong> $25,480.00</p>
+                            <p><strong>Egresos:</strong> $18,250.00</p>
+                            <p><strong>Saldo Actual:</strong> $57,230.00</p>
+                            <button class="btn btn-secondary">Arqueo de Caja</button>
+                        </div>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Hora</th>
+                                <th>Tipo</th>
+                                <th>Cliente</th>
+                                <th>Monto</th>
+                                <th>Saldo</th>
+                                <th>Cajero</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>14:30</td>
+                                <td>Depósito</td>
+                                <td>Juan Pérez</td>
+                                <td>$1,500.00</td>
+                                <td>$57,230.00</td>
+                                <td>Admin</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Divisas -->
+                <div id="divisas" class="section">
+                    <h2 class="section-title">💱 Operaciones de Divisas</h2>
+                    <div class="grid">
+                        <div class="card">
+                            <h3>Tipos de Cambio</h3>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Moneda</th>
+                                        <th>Compra</th>
+                                        <th>Venta</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>USD</td>
+                                        <td>24.65</td>
+                                        <td>24.85</td>
+                                    </tr>
+                                    <tr>
+                                        <td>EUR</td>
+                                        <td>26.80</td>
+                                        <td>27.10</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button class="btn btn-secondary">Actualizar Tipos</button>
+                        </div>
+                        <div class="card">
+                            <h3>Nueva Operación</h3>
+                            <form>
+                                <div class="form-group">
+                                    <label>Tipo de Operación</label>
+                                    <select required>
+                                        <option value="">Seleccionar</option>
+                                        <option value="compra">Compra</option>
+                                        <option value="venta">Venta</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Moneda</label>
+                                    <select required>
+                                        <option value="">Seleccionar</option>
+                                        <option value="USD">USD - Dólar</option>
+                                        <option value="EUR">EUR - Euro</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Monto</label>
+                                    <input type="number" step="0.01" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Cliente</label>
+                                    <input type="text" placeholder="Buscar cliente..." required>
+                                </div>
+                                <button type="submit" class="btn">Procesar Cambio</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reportes -->
+                <div id="reportes" class="section">
+                    <h2 class="section-title">📈 Reportes Generales</h2>
+                    <div class="grid">
+                        <div class="card">
+                            <h3>Reportes Disponibles</h3>
+                            <button class="btn" style="margin-bottom: 10px;">📊 Reporte de Ingresos</button>
+                            <button class="btn" style="margin-bottom: 10px;">💰 Reporte de Transacciones</button>
+                            <button class="btn" style="margin-bottom: 10px;">👥 Reporte de Clientes</button>
+                            <button class="btn" style="margin-bottom: 10px;">💱 Reporte de Divisas</button>
+                            <button class="btn" style="margin-bottom: 10px;">📋 Reporte Diario</button>
+                        </div>
+                        <div class="card">
+                            <h3>Configurar Reporte</h3>
+                            <div class="form-group">
+                                <label>Periodo</label>
+                                <select>
+                                    <option>Hoy</option>
+                                    <option>Esta Semana</option>
+                                    <option>Este Mes</option>
+                                    <option>Este Año</option>
+                                    <option>Personalizado</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Formato</label>
+                                <select>
+                                    <option>PDF</option>
+                                    <option>Excel</option>
+                                    <option>CSV</option>
+                                </select>
+                            </div>
+                            <button class="btn">Generar Reporte</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ahorros -->
+                <div id="ahorros" class="section">
+                    <h2 class="section-title">🏦 Cuentas de Ahorro</h2>
+                    <div class="grid">
+                        <div class="card">
+                            <h3>Nueva Cuenta de Ahorro</h3>
+                            <form id="ahorroForm">
+                                <div class="form-group">
+                                    <label>Cliente</label>
+                                    <input type="text" name="clienteAhorro" placeholder="Buscar cliente..." required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Tipo de Cuenta</label>
+                                    <select name="tipoCuenta" required>
+                                        <option value="">Seleccionar</option>
+                                        <option value="ahorro_simple">Ahorro Simple</option>
+                                        <option value="ahorro_programado">Ahorro Programado</option>
+                                        <option value="ahorro_navideño">Ahorro Navideño</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Depósito Inicial</label>
+                                    <input type="number" name="depositoInicial" step="0.01" min="100" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Tasa de Interés (%)</label>
+                                    <input type="number" name="tasaInteres" step="0.01" value="3.5" required>
+                                </div>
+                                <button type="submit" class="btn">Crear Cuenta</button>
+                            </form>
+                        </div>
+                        <div class="card">
+                            <h3>Resumen de Ahorros</h3>
+                            <p><strong>Total Cuentas:</strong> 456</p>
+                            <p><strong>Saldo Total:</strong> $2,847,650.00</p>
+                            <p><strong>Intereses Pagados:</strong> $12,380.50</p>
+                            <p><strong>Cuentas Activas:</strong> 421</p>
+                            <p><strong>Cuentas Inactivas:</strong> 35</p>
+                        </div>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nº Cuenta</th>
+                                <th>Cliente</th>
+                                <th>Tipo</th>
+                                <th>Saldo</th>
+                                <th>Tasa</th>
+                                <th>Fecha Apertura</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>AH-001-2025</td>
+                                <td>Juan Pérez</td>
+                                <td>Ahorro Simple</td>
+                                <td>$5,480.00</td>
+                                <td>3.5%</td>
+                                <td>15/01/2025</td>
+                                <td class="status-active">Activa</td>
+                                <td>
+                                    <button class="btn btn-small">Movimientos</button>
+                                    <button class="btn btn-small btn-secondary">Editar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>AH-002-2025</td>
+                                <td>María García</td>
+                                <td>Ahorro Programado</td>
+                                <td>$12,350.00</td>
+                                <td>4.0%</td>
+                                <td>10/01/2025</td>
+                                <td class="status-active">Activa</td>
+                                <td>
+                                    <button class="btn btn-small">Movimientos</button>
+                                    <button class="btn btn-small btn-secondary">Editar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Reportes Ahorros -->
+                <div id="reportesAhorros" class="section">
+                    <h2 class="section-title">📊 Reportes de Ahorros</h2>
+                    <div class="grid">
+                        <div class="card">
+                            <h3>Filtros de Reporte</h3>
+                            <div class="form-group">
+                                <label>Tipo de Reporte</label>
+                                <select>
+                                    <option value="">Seleccionar</option>
+                                    <option value="saldos">Reporte de Saldos</option>
+                                    <option value="movimientos">Movimientos por Periodo</option>
+                                    <option value="intereses">Intereses Generados</option>
+                                    <option value="cuentas_nuevas">Cuentas Nuevas</option>
+                                    <option value="cuentas_cerradas">Cuentas Cerradas</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Fecha Desde</label>
+                                <input type="date" value="2025-01-01">
+                            </div>
+                            <div class="form-group">
+                                <label>Fecha Hasta</label>
+                                <input type="date" value="2025-07-20">
+                            </div>
+                            <div class="form-group">
+                                <label>Estado de Cuenta</label>
+                                <select>
+                                    <option value="">Todas</option>
+                                    <option value="activas">Activas</option>
+                                    <option value="inactivas">Inactivas</option>
+                                    <option value="cerradas">Cerradas</option>
+                                </select>
+                            </div>
+                            <button class="btn">Generar Reporte</button>
+                        </div>
+                        <div class="card">
+                            <h3>Estadísticas del Mes</h3>
+                            <p><strong>Nuevas Cuentas:</strong> 28</p>
+                            <p><strong>Depósitos Total:</strong> $156,780.00</p>
+                            <p><strong>Retiros Total:</strong> $89,450.00</p>
+                            <p><strong>Intereses Pagados:</strong> $3,250.80</p>
+                            <p><strong>Crecimiento:</strong> +12.5%</p>
+                            <button class="btn btn-secondary">Ver Detalles</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Top 10 Cuentas por Saldo</h3>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Ranking</th>
+                                    <th>Nº Cuenta</th>
+                                    <th>Cliente</th>
+                                    <th>Saldo</th>
+                                    <th>Tipo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>AH-045-2024</td>
+                                    <td>Empresa XYZ S.A.</td>
+                                    <td>$85,000.00</td>
+                                    <td>Ahorro Empresarial</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>AH-032-2024</td>
+                                    <td>Carlos Mendoza</td>
+                                    <td>$67,500.00</td>
+                                    <td>Ahorro Programado</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Certificados -->
+                <div id="certificados" class="section">
+                    <h2 class="section-title">📜 Certificados de Depósito</h2>
+                    <div class="grid">
+                        <div class="card">
+                            <h3>Nuevo Certificado</h3>
+                            <form id="certificadoForm">
+                                <div class="form-group">
+                                    <label>Cliente</label>
+                                    <input type="text" name="clienteCertificado" placeholder="Buscar cliente..." required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Monto del Certificado</label>
+                                    <input type="number" name="montoCertificado" step="0.01" min="1000" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Plazo (meses)</label>
+                                    <select name="plazoCertificado" required>
+                                        <option value="">Seleccionar</option>
+                                        <option value="3">3 meses</option>
+                                        <option value="6">6 meses</option>
+                                        <option value="12">12 meses</option>
+                                        <option value="24">24 meses</option>
+                                        <option value="36">36 meses</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Tasa de Interés Anual (%)</label>
+                                    <input type="number" name="tasaCertificado" step="0.01" value="6.5" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Tipo de Renovación</label>
+                                    <select name="tipoRenovacion" required>
+                                        <option value="">Seleccionar</option>
+                                        <option value="automatica">Automática</option>
+                                        <option value="manual">Manual</option>
+                                        <option value="no_renovar">No Renovar</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn">Emitir Certificado</button>
+                            </form>
+                        </div>
+                        <div class="card">
+                            <h3>Resumen de Certificados</h3>
+                            <p><strong>Total Certificados:</strong> 156</p>
+                            <p><strong>Monto Total:</strong> $4,250,000.00</p>
+                            <p><strong>Por Vencer (30 días):</strong> 12</p>
+                            <p><strong>Vencidos:</strong> 3</p>
+                            <p><strong>Intereses por Pagar:</strong> $85,400.00</p>
+                            <button class="btn btn-secondary">Ver Vencimientos</button>
+                        </div>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nº Certificado</th>
+                                <th>Cliente</th>
+                                <th>Monto</th>
+                                <th>Plazo</th>
+                                <th>Tasa</th>
+                                <th>Fecha Emisión</th>
+                                <th>Fecha Vencimiento</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>CD-001-2025</td>
+                                <td>Ana López</td>
+                                <td>$25,000.00</td>
+                                <td>12 meses</td>
+                                <td>6.5%</td>
+                                <td>15/01/2025</td>
+                                <td>15/01/2026</td>
+                                <td class="status-active">Vigente</td>
+                                <td>
+                                    <button class="btn btn-small">Ver</button>
+                                    <button class="btn btn-small btn-secondary">Imprimir</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>CD-002-2025</td>
+                                <td>Roberto Silva</td>
+                                <td>$50,000.00</td>
+                                <td>6 meses</td>
+                                <td>5.8%</td>
+                                <td>20/01/2025</td>
+                                <td>20/07/2025</td>
+                                <td style="color: #ff6b35; font-weight: bold;">Vencido</td>
+                                <td>
+                                    <button class="btn btn-small">Renovar</button>
+                                    <button class="btn btn-small btn-secondary">Liquidar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Reportes Certificados -->
+                <div id="reportesCertificados" class="section">
+                    <h2 class="section-title">📋 Reportes de Certificados</h2>
+                    <div class="grid">
+                        <div class="card">
+                            <h3>Configuración de Reporte</h3>
+                            <div class="form-group">
+                                <label>Tipo de Reporte</label>
+                                <select>
+                                    <option value="">Seleccionar</option>
+                                    <option value="vigentes">Certificados Vigentes</option>
+                                    <option value="vencimientos">Próximos Vencimientos</option>
+                                    <option value="vencidos">Certificados Vencidos</option>
+                                    <option value="renovaciones">Renovaciones del Periodo</option>
+                                    <option value="liquidaciones">Liquidaciones</option>
+                                    <option value="intereses">Intereses Generados</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Periodo</label>
+                                <select>
+                                    <option>Próximos 30 días</option>
+                                    <option>Próximos 60 días</option>
+                                    <option>Próximos 90 días</option>
+                                    <option>Este Mes</option>
+                                    <option>Personalizado</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Estado</label>
+                                <select>
+                                    <option value="">Todos</option>
+                                    <option value="vigente">Vigentes</option>
+                                    <option value="vencido">Vencidos</option>
+                                    <option value="liquidado">Liquidados</option>
+                                </select>
+                            </div>
+                            <button class="btn">Generar Reporte</button>
+                        </div>
+                        <div class="card">
+                            <h3>Alertas y Notificaciones</h3>
+                            <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                                <strong>⚠️ 12 certificados vencen en los próximos 30 días</strong>
+                            </div>
+                            <div style="background: #f8d7da; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                                <strong>🚨 3 certificados ya vencidos requieren atención</strong>
+                            </div>
+                            <div style="background: #d4edda; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                                <strong>✅ 8 renovaciones automáticas programadas</strong>
+                            </div>
+                            <button class="btn btn-secondary">Ver Detalles</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Certificados por Vencer (30 días)</h3>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Nº Certificado</th>
+                                    <th>Cliente</th>
+                                    <th>Monto</th>
+                                    <th>Fecha Vencimiento</th>
+                                    <th>Días Restantes</th>
+                                    <th>Acción Programada</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>CD-045-2024</td>
+                                    <td>Laura Martínez</td>
+                                    <td>$15,000.00</td>
+                                    <td>25/07/2025</td>
+                                    <td>5</td>
+                                    <td>Renovación Automática</td>
+                                    <td style="color: #ff6b35; font-weight: bold;">Por Vencer</td>
+                                </tr>
+                                <tr>
+                                    <td>CD-038-2024</td>
+                                    <td>Miguel Torres</td>
+                                    <td>$30,000.00</td>
+                                    <td>28/07/2025</td>
+                                    <td>8</td>
+                                    <td>Contactar Cliente</td>
+                                    <td style="color: #ff6b35; font-weight: bold;">Por Vencer</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let currentUser = null;
+        let clientesPersonales = [];
+        let clientesInstitucionales = [];
+        let transacciones = [];
+        let cuentasAhorro = [];
+        let certificados = [];
+
+        // Funciones de autenticación
+        function showLogin() {
+            document.getElementById('login').classList.remove('hidden');
+            document.getElementById('register').classList.add('hidden');
+            document.getElementById('mainSystem').classList.add('hidden');
+        }
+
+        function showRegister() {
+            document.getElementById('login').classList.add('hidden');
+            document.getElementById('register').classList.remove('hidden');
+            document.getElementById('mainSystem').classList.add('hidden');
+        }
+
+        function logout() {
+            currentUser = null;
+            showLogin();
+        }
+
+        // Event Listeners para formularios
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username && password) {
+                currentUser = { username: username, role: 'admin' };
+                document.getElementById('userName').textContent = username;
+                document.getElementById('userAvatar').textContent = username.charAt(0).toUpperCase();
+                
+                document.getElementById('login').classList.add('hidden');
+                document.getElementById('mainSystem').classList.remove('hidden');
+                showSection('dashboard');
+            } else {
+                alert('Por favor, complete todos los campos');
+            }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            alert('Usuario registrado exitosamente');
+            showLogin();
+            e.target.reset();
+        });
+
+        document.getElementById('filiacionPersonalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const cliente = {
+                id: 'P' + String(clientesPersonales.length + 1).padStart(3, '0'),
+                nombres: formData.get('nombres'),
+                apellidos: formData.get('apellidos'),
+                identidad: formData.get('identidad'),
+                fechaNacimiento: formData.get('fechaNacimiento'),
+                telefono: formData.get('telefono'),
+                email: formData.get('email'),
+                direccion: formData.get('direccion'),
+                estado: 'Activo'
+            };
+            
+            clientesPersonales.push(cliente);
+            actualizarTablaClientesPersonales();
+            alert('Cliente registrado exitosamente');
+            e.target.reset();
+        });
+
+        document.getElementById('filiacionInstitucionalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const empresa = {
+                id: 'E' + String(clientesInstitucionales.length + 1).padStart(3, '0'),
+                razonSocial: formData.get('razonSocial'),
+                nombreComercial: formData.get('nombreComercial'),
+                rtn: formData.get('rtn'),
+                tipoEmpresa: formData.get('tipoEmpresa'),
+                telefono: formData.get('telefonoEmpresa'),
+                email: formData.get('emailEmpresa'),
+                direccion: formData.get('direccionEmpresa'),
+                representanteLegal: formData.get('representanteLegal'),
+                identidadRepresentante: formData.get('identidadRepresentante'),
+                estado: 'Activo'
+            };
+            
+            clientesInstitucionales.push(empresa);
+            alert('Empresa registrada exitosamente');
+            e.target.reset();
+        });
+
+        document.getElementById('transaccionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const transaccion = {
+                id: 'T' + String(transacciones.length + 1).padStart(4, '0'),
+                tipo: formData.get('tipoOperacion'),
+                cliente: formData.get('clienteTransaccion'),
+                monto: parseFloat(formData.get('monto')),
+                concepto: formData.get('concepto'),
+                fecha: new Date().toLocaleString(),
+                cajero: currentUser.username
+            };
+            
+            transacciones.push(transaccion);
+            alert('Transacción procesada exitosamente');
+            e.target.reset();
+        });
+
+        document.getElementById('ahorroForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const cuenta = {
+                numero: 'AH-' + String(cuentasAhorro.length + 1).padStart(3, '0') + '-2025',
+                cliente: formData.get('clienteAhorro'),
+                tipo: formData.get('tipoCuenta'),
+                saldo: parseFloat(formData.get('depositoInicial')),
+                tasa: parseFloat(formData.get('tasaInteres')),
+                fechaApertura: new Date().toLocaleDateString(),
+                estado: 'Activa'
+            };
+            
+            cuentasAhorro.push(cuenta);
+            alert('Cuenta de ahorro creada exitosamente');
+            e.target.reset();
+        });
+
+        document.getElementById('certificadoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const fechaEmision = new Date();
+            const plazo = parseInt(formData.get('plazoCertificado'));
+            const fechaVencimiento = new Date(fechaEmision);
+            fechaVencimiento.setMonth(fechaVencimiento.getMonth() + plazo);
+            
+            const certificado = {
+                numero: 'CD-' + String(certificados.length + 1).padStart(3, '0') + '-2025',
+                cliente: formData.get('clienteCertificado'),
+                monto: parseFloat(formData.get('montoCertificado')),
+                plazo: plazo + ' meses',
+                tasa: parseFloat(formData.get('tasaCertificado')),
+                fechaEmision: fechaEmision.toLocaleDateString(),
+                fechaVencimiento: fechaVencimiento.toLocaleDateString(),
+                tipoRenovacion: formData.get('tipoRenovacion'),
+                estado: 'Vigente'
+            };
+            
+            certificados.push(certificado);
+            alert('Certificado emitido exitosamente');
+            e.target.reset();
+        });
+
+        // Funciones de navegación
+        function showSection(sectionId) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remover clase active de todos los menu items
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Mostrar la sección seleccionada
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Agregar clase active al menu item correspondiente
+            event.target.classList.add('active');
+        }
+
+        // Función para actualizar tabla de clientes personales
+        function actualizarTablaClientesPersonales() {
+            const tbody = document.querySelector('#clientesPersonalesTable tbody');
+            tbody.innerHTML = '';
+            
+            clientesPersonales.forEach(cliente => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${cliente.id}</td>
+                    <td>${cliente.nombres}</td>
+                    <td>${cliente.apellidos}</td>
+                    <td>${cliente.identidad}</td>
+                    <td>${cliente.telefono}</td>
+                    <td class="status-active">${cliente.estado}</td>
+                    <td>
+                        <button class="btn btn-small">Editar</button>
+                        <button class="btn btn-small btn-secondary">Ver</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            // Datos de ejemplo
+            clientesPersonales.push({
+                id: '001',
+                nombres: 'Juan Carlos',
+                apellidos: 'Pérez García',
+                identidad: '0801-1990-12345',
+                telefono: '9876-5432',
+                estado: 'Activo'
+            });
+            
+            actualizarTablaClientesPersonales();
+        });
+    </script>
+</body>
+</html>
